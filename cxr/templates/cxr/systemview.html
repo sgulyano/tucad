@@ -1,0 +1,44 @@
+{% extends 'cxr/base.html' %} 
+
+{% load static %} 
+
+{% block title %}Chest X-Ray Upload{% endblock %} 
+
+{% block javascript %}
+
+{# JQUERY FILE UPLOAD SCRIPTS #}
+<script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script> {% endblock %} {% block main_content %}
+
+<form method="post" action="{% url 'cxr:clear_database' %}">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.path }}">
+  <button type="submit" class="btn btn-danger pull-right">
+    <span class="glyphicon glyphicon-trash"></span> Clear Database
+  </button>
+</form>
+<h1 class="page-header">
+  Chest X-ray Files
+</h1>
+<table id="gallery" class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Chest X-Ray Image</th>
+      <th>Description</th>
+      <th>Upload Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for xrimg in xrimgs %}
+    <tr>
+      <td>
+        <a href="{% url 'cxr:analysis' xrimg.pk%}">{{ xrimg.file.name }}</a>
+      </td>
+      <td>{{ xrimg.description }}</td>
+      <td>{{ xrimg.uploaded_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

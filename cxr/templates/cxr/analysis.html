@@ -1,0 +1,20 @@
+{% extends 'cxr/base.html' %}
+
+{% load static %}
+
+{% block title %}Chest X-Ray Analysis{% endblock %}
+
+{% block main_content %}
+  <h1 class="page-header">
+    Chest X-Ray Analysis
+  </h1>
+  
+  <div>
+      <b>{{ object.description }}</b>
+      <a href="{{ object.file.url }}">
+      <img src="{{ object.file.url }}" alt="Smiley face" height="256" width="256">
+    </a>
+    <h3>File name: {{ object.file.name }}</h3>
+    <h4>Upload at: {{ object.uploaded_at }}</h4>
+  </div>
+{% endblock %}

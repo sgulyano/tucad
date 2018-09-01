@@ -1,0 +1,34 @@
+{% extends 'cxr/base.html' %}
+
+{% load static %}
+
+{% block title %}Chest X-Ray Upload{% endblock %}
+
+{% block javascript %}
+
+{# JQUERY FILE UPLOAD SCRIPTS #}
+<script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script> {# PHOTOS PAGE SCRIPTS #}
+<script src="{% static 'cxr/js/chest-xray-upload.js' %}"></script> {% endblock %} {% block main_content %}
+<h1 class="page-header">
+  Chest X-ray Upload
+</h1>
+<div class="well text-muted text-center" style="padding-top: 4rem; padding-bottom: 4rem;">
+  <div id="upload_msg">
+    <span class="glyphicon glyphicon-arrow-down" style="font-size: 4rem;"></span>
+    <h3>Drop Chest X-Ray Image Here to Upload</h3>
+  </div>
+  <div id="img_holder">
+  </div>
+  <h3 id="img_name"></h3>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input id="fileupload" type="file" name="file" multiple style="display: none;" data-url="{% url 'cxr:upload' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+  <!--Image Taken Date: <input id="imagedate" type="date" name="description"><br> -->
+  <input type="submit" value="Submit" id="submit_but">
+</form>
+
+{% endblock %}

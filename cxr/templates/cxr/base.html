@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!--<form method="post" action="{% url 'cxr:clear_database' %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <button type="submit" class="btn btn-danger pull-right">
+       <span class="glyphicon glyphicon-trash"></span> Clear Database 
+    </button>
+  </form>-->
+  <div class="row">
+    <div class="col-md-9">
+      {% block main_content %}
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
