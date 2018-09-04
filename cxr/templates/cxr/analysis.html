@@ -4,17 +4,105 @@
 
 {% block title %}Chest X-Ray Analysis{% endblock %}
 
+{% block head_content %}
+
+<style type="text/css">
+  .column {
+    float: left;
+    width: 33.33%;
+}
+
+.left {
+    width: 25%;
+    padding-top: 32pt
+}
+
+.right {
+    width: 25%;
+}
+
+.middle {
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+h5 {
+    color: red;
+    font-size: 18px;
+    text-shadow: 1px 1px black;
+}
+
+h6 {
+    color: darkorange;
+    font-size: 16px;
+    text-shadow: 1px 0px black;
+}
+
+th, td {
+  padding: 0px 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
 {% block main_content %}
+
+<div>
   <h1 class="page-header">
     Chest X-Ray Analysis
   </h1>
-  
-  <div>
-      <b>{{ object.description }}</b>
-      <a href="{{ object.file.url }}">
-      <img src="{{ object.file.url }}" alt="Smiley face" height="256" width="256">
+  <h4>File name: {{ object.file.name }}</h4>
+  <p>Upload at: {{ object.uploaded_at }}</p>
+  <p>{{ object.description }}</p>
+</div>
+
+<div class="row">
+  <div class="column left">
+    <a href="{{ object.file.url }}">
+      <img src="{{ object.file.url }}" alt="Original File" height="256" width="256">
     </a>
-    <h3>File name: {{ object.file.name }}</h3>
-    <h4>Upload at: {{ object.uploaded_at }}</h4>
   </div>
+
+  <div class="column middle">
+    <img src="{{ object.heatmap }}" alt="Heat Map" height="337">
+  </div>
+
+  <div class="column right">
+    <script>
+      var obj = {{ object.preds| safe}};
+      document.write("<table>");
+      document.write("<th>Disease</th><th>Probability</th>");
+      var counter = 0;
+      for (var p in obj) {
+        document.write("<tr>");
+        if (obj.hasOwnProperty(p)) {
+          if (counter < 1) {
+            document.write("<td><h5>" + p + "</h5></td>");
+            document.write("<td><h5>" + obj[p] + "</h5></td>");
+          } else if (counter < 5) {
+            document.write("<td><h6>" + p + "</h6></td>");
+            document.write("<td><h6>" + obj[p] + "</h6></td>");
+          } else {
+            document.write("<td>" + p + "</td>");
+            document.write("<td>" + obj[p] + "</td>");
+          }
+        }
+        document.write("</tr>");
+        counter++;
+      }
+      document.write("</table>");
+    </script>
+  </div>
+</div>
 {% endblock %}

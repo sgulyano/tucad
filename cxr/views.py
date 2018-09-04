@@ -9,6 +9,16 @@ from django.urls import reverse
 
 from .forms import ChestXrayForm
 from .models import ChestXray
+from django.conf import settings
+
+import os
+import shutil
+import sys
+import json
+sys.path.insert(0, '/home/yoyo/Desktop/reproduce-chexnet-master')
+
+
+from pred_one import find_pred_one, show_pred_one
 
 class Upload(View):
     def get(self, request):
@@ -39,6 +49,18 @@ class Upload(View):
 class Analysis(DetailView):
     model = ChestXray
     template_name = 'cxr/analysis.html'
+    def get_object(self, queryset=None):
+        obj = super(Analysis, self).get_object(queryset=queryset)
+        obj.description = 'Chest X-ray Image'
+        img_path = os.path.join(settings.BASE_DIR, obj.file.url[1:])
+        print(img_path)
+        [preds, cxr, img_tensor, model] = find_pred_one(img_path)
+        fn = show_pred_one(preds, cxr, img_tensor, model, 0, settings.MEDIA_ROOT)
+        
+        pred_dict = dict(zip(preds.index.tolist(), preds['Predicted Probability'].tolist()))
+        obj.preds = json.dumps(pred_dict)
+        obj.heatmap = os.path.join(settings.MEDIA_URL, fn)
+        return obj
 
 class SystemView(View):
     def get(self, request):
