@@ -65,3 +65,25 @@ python manage.py runserver
 ------
 ### Requirements ###
 Test on Django 2.1 Python 3.6
+
+------
+### Dockerize ###
+Follow this [tutorial](https://medium.com/backticks-tildes/how-to-dockerize-a-django-application-a42df0cb0a99)
+Use the given `requirements.txt` or create one by typing
+```
+pip freeze > requirements.txt
+```
+To list all the libraries in the environment.
+
+Next, install `Docker compose` following this [link](https://docs.docker.com/compose/install/#install-compose)
+Then, build and run the container with the command:
+```
+docker-compose up
+```
+If there is any error and you need to build the docker image again, type:
+```
+docker build -t tucad_web .
+```
+Finally, the web app for development should start at http://0.0.0.0:8000/
+
+

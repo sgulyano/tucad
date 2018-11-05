@@ -15,10 +15,8 @@ import os
 import shutil
 import sys
 import json
-sys.path.insert(0, '/home/yoyo/Desktop/reproduce-chexnet-master')
 
-
-from pred_one import find_pred_one, show_pred_one
+from cxrnet.pred_one import find_pred_one, show_pred_one
 
 class Upload(View):
     def get(self, request):
