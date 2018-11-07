@@ -84,6 +84,6 @@ If there is any error and you need to build the docker image again, type:
 ```
 docker build -t tucad_web .
 ```
-Finally, the web app for development should start at http://0.0.0.0:8000/
+Finally, the web app for development should start at http://127.0.0.1:8000/
 
 
