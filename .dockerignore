@@ -3,3 +3,4 @@ env
 media
 db.sqlite3
 .gitignore
+.git

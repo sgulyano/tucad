@@ -25,7 +25,9 @@ SECRET_KEY = 'hn6s%g$p(-@u*z-c$^8vpb@u!az*c#^dl+lj=lo$9-@3==&k$d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+from socket import gethostname, gethostbyname 
+ALLOWED_HOSTS = ['192.168.99.100', gethostname(), gethostbyname(gethostname())] 
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -75,10 +77,18 @@ WSGI_APPLICATION = 'tucad.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kubernetes_django',
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT', 5432)
+     }
 }
 
 

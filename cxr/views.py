@@ -16,7 +16,7 @@ import shutil
 import sys
 import json
 
-from cxrnet.pred_one import find_pred_one, show_pred_one
+# from cxrnet.pred_one import find_pred_one, show_pred_one
 
 class Upload(View):
     def get(self, request):
@@ -52,12 +52,12 @@ class Analysis(DetailView):
         obj.description = 'Chest X-ray Image'
         img_path = os.path.join(settings.BASE_DIR, obj.file.url[1:])
         print(img_path)
-        [preds, cxr, img_tensor, model] = find_pred_one(img_path)
-        fn = show_pred_one(preds, cxr, img_tensor, model, 0, settings.MEDIA_ROOT)
+        # [preds, cxr, img_tensor, model] = find_pred_one(img_path)
+        # fn = show_pred_one(preds, cxr, img_tensor, model, 0, settings.MEDIA_ROOT)
         
-        pred_dict = dict(zip(preds.index.tolist(), preds['Predicted Probability'].tolist()))
-        obj.preds = json.dumps(pred_dict)
-        obj.heatmap = os.path.join(settings.MEDIA_URL, fn)
+        # pred_dict = dict(zip(preds.index.tolist(), preds['Predicted Probability'].tolist()))
+        # obj.preds = json.dumps(pred_dict)
+        # obj.heatmap = os.path.join(settings.MEDIA_URL, fn)
         return obj
 
 class SystemView(View):
